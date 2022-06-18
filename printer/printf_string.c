@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/16 20:55:49 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:41:35 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	print_string(char *s, t_flags *flag, t_len *len)
 
 	if (!s)
 		print_string("(null)", flag, len);
-	if (ft_strlen(s) < ft_atoi(flag->nmbr_bfore_prcn))
+	else if (ft_strlen(s) < ft_atoi(flag->nmbr_bfore_prcn))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
-			ft_strlcpy(output, s, ft_strlen(s));
+			ft_strlcpy(output, s, ft_atoi(flag->nmbr_bfore_prcn));
 		else
 		{
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s)), s,
-				ft_strlen(s));
+				(ft_strlen(s) + 1));
 		}
 		ft_putstr_fd(output, 1);
 		len->n += ft_strlen(output);

@@ -6,38 +6,36 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/16 22:54:51 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:17:04 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 // itoa, but for hex
-char	*ft_htoa(unsigned long n, char *s_hex, t_flags *flag)
+void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 {
 	char	*s;
-
 	s = ft_calloc(sizeof(char), 2);
 	if (n >= 16)
 		ft_htoa((n / 16), s_hex, flag);
-	if (n >= 10)
-		n = n % 16;
+	n %= 16;
 	if (n >= 10 && n <= 15)
 	{
 		if (flag->chars == 'x')
 			*s = (n - 10 + 'a');
 		else if (flag->chars == 'X')
 			*s = (n - 10 + 'A');
-		s_hex = ft_strjoin(s_hex, s);
+		*s_hex = ft_strjoin(*s_hex, s);
 	}
 	else
 	{
 		*s = n + '0';
-		s_hex = ft_strjoin(s_hex, s);
+		*s_hex = ft_strjoin(*s_hex, s);
 	}
 	free(s);
-	return (s_hex);
 }
+
 
 // - calls ft_htoa, but checks for hash flag
 // - if true, appends 0x or 0X to front of string if specifier is 'x' or 'X'
@@ -47,7 +45,7 @@ char	*hex_to_char(unsigned long n, t_flags *flag)
 	char	*s_hex;
 	
 	s_hex = NULL;
-	s_hex = ft_htoa(n, s_hex, flag);
+	ft_htoa(n, &s_hex, flag);
 	if (flag->hash != 0 && flag->chars == 'x')
 		s_hex = ft_strjoin("0x", s_hex);
 	else if (flag->hash != 0 && flag->chars == 'X')
@@ -57,12 +55,14 @@ char	*hex_to_char(unsigned long n, t_flags *flag)
 
 // - similar to print_number and print_unsigned
 // (see printer/print_number.c for full explaination)
+#include <stdio.h>
 void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 {
 	char	*s_hex;
 	char	*output;
 
 	s_hex = hex_to_char(n, flag);
+	printf("+%s+", s_hex);
 	if (ft_strlen(s_hex) < ft_atoi(flag->nmbr_bfore_prcn))
 	{
 		output = pregenerate_flag(flag);
@@ -71,7 +71,7 @@ void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 		else
 		{
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_hex)), s_hex,
-				ft_strlen(s_hex));
+				(ft_strlen(s_hex) + 1));
 		}
 		ft_putstr_fd(output, 1);
 		len->n += ft_strlen(output);

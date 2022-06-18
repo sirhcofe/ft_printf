@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/06/16 21:11:57 by chenlee          ###   ########.fr        #
+#    Updated: 2022/06/18 19:14:50 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,14 +14,15 @@ NAME		= libftprintf.a
 
 MAIN		= ft_printf.c
 
-MNDT		=	printf_char.c		\
-				printf_hex.c		\
-				printf_number.c		\
-				printf_pointer.c	\
-				printf_string.c		\
-				printf_unsigned.c	\
-				helper_fn.c			\
-				print_specifier.c
+MNDT		=	printf_char.c			\
+				printf_hex.c			\
+				printf_number.c			\
+				printf_pointer.c		\
+				printf_string.c			\
+				printf_unsigned.c		\
+				helper_fn.c				\
+				print_specifier.c		\
+				initiate_reset_flag.c
 
 LIBFT		= libft
 LIBFT_OBJS	= ./libft/objects/*.o
@@ -33,7 +34,7 @@ CFLAGS				= -Wall -Wextra -Werror
 OBJS_DIR			= objects/
 
 SRCE_DIR			=	printer	\
-						parser	\
+						utils	\
 						libft
 
 vpath %.c $(SRCE_DIR)

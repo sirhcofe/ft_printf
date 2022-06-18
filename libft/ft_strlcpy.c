@@ -24,6 +24,5 @@ int	ft_strlcpy(char *dest, const char *src, int size)
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
 	return (ft_strlen(src));
 }

@@ -6,11 +6,12 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 21:05:29 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/16 22:12:09 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:52:08 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 // extension of ft_itoa in which additionally considers
 // plus and blank flag when printing numbers
@@ -26,24 +27,21 @@ char	*nmbr_to_str(long n, t_flags *flag)
 	return (str);
 }
 
-#include <stdio.h>
 // initial allocation of spaces based on number_before_precision
 char	*ft_spalloc(int count, int size)
 {
 	char	*ptr;
 	int		i;
 
-	ptr = malloc(size * count);
+	ptr = ft_calloc(count + 1, size);
 	if (!ptr)
 		return (0);
 	i = 0;
-	while (i < (size * count))
+	while (i < count)
 	{
 		ptr[i] = ' ';
 		i++;
 	}
-	ptr[i] = '\0';
-	printf("Spalloc did run\n");
 	return (ptr);
 }
 
@@ -54,17 +52,22 @@ void	fill_width(char *output, t_flags *flag, int n)
 	int	j;
 
 	i = 0;
+	j = ft_strlen(output) - 1;
 	if (flag->minus != 0)
 	{
-		while (i++ <= n)
+		while (i <= n)
+		{
 			output[i] = '0';
+			i++;
+		}
 	}
 	else
 	{
-		while (i++ <= n)
+		while (i < n)
 		{
-			j = ft_strlen(output);
-			output[j--] = '0';
+			output[j] = '0';
+			i++;
+			j--;
 		}
 	}
 }
@@ -83,17 +86,21 @@ char	*pregenerate_flag(t_flags *flag)
 	output = NULL;
 	if (flag->nmbr_bfore_prcn)
 	{
-		if ((ft_strchr("csp%", flag->chars) == 0)
-			&& ft_atoi(flag->nmbr_bfore_prcn) < ft_atoi(flag->nmbr_after_prcn))
-			output = ft_spalloc((ft_atoi(flag->nmbr_after_prcn) + 1),
+		if ((ft_strchr("csp%", flag->chars) == NULL)
+			&& (ft_atoi(flag->nmbr_bfore_prcn) < ft_atoi(flag->nmbr_after_prcn)))
+		{
+			output = ft_spalloc(ft_atoi(flag->nmbr_after_prcn),
 					sizeof(char));
+		}
 		else
-			output = ft_spalloc((ft_atoi(flag->nmbr_bfore_prcn) + 1),
+		{
+			output = ft_spalloc(ft_atoi(flag->nmbr_bfore_prcn),
 					sizeof(char));
+		}
 	}
 	if (ft_strchr("csp%", flag->chars) == 0)
 	{
-		if (flag->nmbr_after_prcn)
+		if (ft_atoi(flag->nmbr_after_prcn) > 0)
 			fill_width(output, flag, ft_atoi(flag->nmbr_after_prcn));
 		else if (flag->zero != 0)
 			fill_width(output, flag, ft_atoi(flag->nmbr_bfore_prcn));
