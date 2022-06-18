@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/18 22:16:13 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:57:25 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	if (ft_strlen(s_num) < ft_atoi(flag->nmbr_bfore_prcn))
 	{
 		output = pregenerate_flag(flag);
-		printf("{{{%s}}}", output);
 		if (flag->minus != 0)
 			ft_strlcpy(output, s_num, (ft_strlen(s_num) + 1));
 		else
