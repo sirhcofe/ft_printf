@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:18 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/16 20:57:21 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/19 18:17:57 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_unsigned(unsigned int n, t_flags *flag, t_len *len)
 	char	*s_num;
 	char	*output;
 
-	s_num = nmbr_to_str((long)n, flag);
+	s_num = ft_itoa((long)n);
 	if (ft_strlen(s_num) < ft_atoi(flag->nmbr_bfore_prcn))
 	{
 		output = pregenerate_flag(flag);

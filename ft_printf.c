@@ -6,12 +6,11 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/18 22:35:46 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/19 18:56:16 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 void	parse_number(const char *format, t_flags *flag, int *i)
 {
@@ -81,17 +80,21 @@ void	parse_format(const char *format, va_list args, t_len *len)
 		else
 			len->n += write(1, &format[i], 1);
 	}
+	free(flag);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	t_len		*len;
+	int			omg;
 
 	len = malloc(sizeof(t_len));
 	len->n = 0;
 	va_start(args, format);
 	parse_format(format, args, len);
 	va_end(args);
-	return (len->n);
+	omg = len->n;
+	free(len);
+	return (omg);
 }

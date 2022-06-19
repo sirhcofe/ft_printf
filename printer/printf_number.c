@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/18 22:57:25 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/19 18:43:56 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	char	*s_num;
 	char	*output;
 
-	s_num = nmbr_to_str((long)n, flag);
-	if (ft_strlen(s_num) < ft_atoi(flag->nmbr_bfore_prcn))
+	output = NULL;
+	s_num = ft_itoa((long)n);
+	if (ft_strlen(s_num) < ft_atoi(flag->nmbr_bfore_prcn)
+		|| ft_strlen(s_num) < ft_atoi(flag->nmbr_after_prcn))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
@@ -36,14 +38,13 @@ void	print_number(int n, t_flags *flag, t_len *len)
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_num)), s_num,
 				(ft_strlen(s_num) + 1));
 		}
-		ft_putstr_fd(output, 1);
-		len->n += ft_strlen(output);
-		free(output);
 	}
 	else
-	{
-		ft_putstr_fd(s_num, 1);
-		len->n += ft_strlen(s_num);
-	}
+		output = ft_strdup(s_num);
+	if (n > 0 && (flag->plus != 0 || flag->blank != 0))
+		output = fill_plus_blank(output, flag);
+	ft_putstr_fd(output, 1);
+	len->n += ft_strlen(output);
 	free(s_num);
+	free(output);
 }
