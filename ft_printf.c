@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/19 18:56:16 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/19 19:03:16 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 void	parse_number(const char *format, t_flags *flag, int *i)
 {
-	int	j;
+	int		j;
+	char	*temp;
 
 	j = 0;
 	while (ft_isdigit(format[*i + j]))
 		j++;
+	temp = ft_substr(format, *i, j);
 	if (flag->precisn == 0)
-		flag->nmbr_bfore_prcn = ft_substr(format, *i, j);
+		flag->nmbr_bfore_prcn = ft_atoi(temp);
 	else
-		flag->nmbr_after_prcn = ft_substr(format, *i, j);
+		flag->nmbr_after_prcn = ft_atoi(temp);
 	*i = *i + j - 1;
+	free(temp);
 }
 
 void	identify_spec(const char *format, t_flags *flag)

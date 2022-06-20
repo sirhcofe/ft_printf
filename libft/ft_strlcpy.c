@@ -24,5 +24,6 @@ int	ft_strlcpy(char *dest, const char *src, int size)
 		dest[i] = src[i];
 		i++;
 	}
+	free((void *)src);
 	return (ft_strlen(src));
 }

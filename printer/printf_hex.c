@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/18 22:17:04 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/20 20:05:53 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 {
 	char	*s;
-	s = ft_calloc(sizeof(char), 2);
+	
 	if (n >= 16)
 		ft_htoa((n / 16), s_hex, flag);
 	n %= 16;
+	s = ft_calloc(sizeof(char), 2);
 	if (n >= 10 && n <= 15)
 	{
 		if (flag->chars == 'x')
@@ -33,9 +34,7 @@ void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 		*s = n + '0';
 		*s_hex = ft_strjoin(*s_hex, s);
 	}
-	free(s);
 }
-
 
 // - calls ft_htoa, but checks for hash flag
 // - if true, appends 0x or 0X to front of string if specifier is 'x' or 'X'
@@ -55,15 +54,13 @@ char	*hex_to_char(unsigned long n, t_flags *flag)
 
 // - similar to print_number and print_unsigned
 // (see printer/print_number.c for full explaination)
-#include <stdio.h>
 void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 {
 	char	*s_hex;
 	char	*output;
 
 	s_hex = hex_to_char(n, flag);
-	printf("+%s+", s_hex);
-	if (ft_strlen(s_hex) < ft_atoi(flag->nmbr_bfore_prcn))
+	if (ft_strlen(s_hex) < (flag->nmbr_bfore_prcn))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
@@ -75,7 +72,6 @@ void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 		}
 		ft_putstr_fd(output, 1);
 		len->n += ft_strlen(output);
-		free(output);
 	}
 	else
 	{

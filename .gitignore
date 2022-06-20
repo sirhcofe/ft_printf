@@ -1,4 +1,7 @@
+objects
 *.o
 main.c
 *.dSYM
 libftprintf.a
+tester
+test

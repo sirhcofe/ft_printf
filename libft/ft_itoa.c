@@ -58,6 +58,6 @@ char	*ft_itoa(long m)
 	ptr = malloc(sizeof(char) * (len + 1));
 	if (!ptr)
 		return (0);
-	else
-		return (ft_putnbr(ptr, n, sign, len));
+	ptr = ft_putnbr(ptr, n, sign, len);
+	return (ptr);
 }

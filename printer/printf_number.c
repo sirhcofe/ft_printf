@@ -6,12 +6,11 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/19 18:43:56 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/20 21:08:39 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 // similar to print_unsigned and print_hex
 // - converts number to string
@@ -27,8 +26,8 @@ void	print_number(int n, t_flags *flag, t_len *len)
 
 	output = NULL;
 	s_num = ft_itoa((long)n);
-	if (ft_strlen(s_num) < ft_atoi(flag->nmbr_bfore_prcn)
-		|| ft_strlen(s_num) < ft_atoi(flag->nmbr_after_prcn))
+	if (ft_strlen(s_num) < (flag->nmbr_bfore_prcn)
+		|| ft_strlen(s_num) < (flag->nmbr_after_prcn))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
@@ -38,13 +37,13 @@ void	print_number(int n, t_flags *flag, t_len *len)
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_num)), s_num,
 				(ft_strlen(s_num) + 1));
 		}
+		// free(s_num);
 	}
 	else
 		output = ft_strdup(s_num);
-	if (n > 0 && (flag->plus != 0 || flag->blank != 0))
-		output = fill_plus_blank(output, flag);
+	if (flag->plus != 0 || flag->blank != 0 || n < 0)
+		output = fill_plus_blank(output, flag, n);
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
-	free(s_num);
 	free(output);
 }

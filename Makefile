@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/06/19 18:44:49 by chenlee          ###   ########.fr        #
+#    Updated: 2022/06/20 19:27:35 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ test : all main.c
 				gcc -L. -lftprintf main.c -o test && ./test
 
 all:			$(NAME)
+
+bonus: $(NAME)
 
 clean:
 				@rm -rf $(OBJS_DIR)
