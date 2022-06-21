@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/19 19:03:16 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 19:49:38 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	parse_number(const char *format, t_flags *flag, int *i)
 	while (ft_isdigit(format[*i + j]))
 		j++;
 	temp = ft_substr(format, *i, j);
-	if (flag->precisn == 0)
-		flag->nmbr_bfore_prcn = ft_atoi(temp);
+	if (flag->dot == 0)
+		flag->width = ft_atoi(temp);
 	else
-		flag->nmbr_after_prcn = ft_atoi(temp);
+		flag->precision = ft_atoi(temp);
 	*i = *i + j - 1;
 	free(temp);
 }
@@ -47,7 +47,7 @@ void	identify_spec(const char *format, t_flags *flag)
 		else if (format[i] == '#')
 			flag->hash += 1;
 		else if (format[i] == '.')
-			flag->precisn += 1;
+			flag->dot += 1;
 		else if (ft_isdigit(format[i]))
 			parse_number(format, flag, &i);
 		else if (ft_strchr(CHARACTER, format[i]))
@@ -90,14 +90,14 @@ int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	t_len		*len;
-	int			omg;
+	int			print_length;
 
 	len = malloc(sizeof(t_len));
 	len->n = 0;
 	va_start(args, format);
 	parse_format(format, args, len);
 	va_end(args);
-	omg = len->n;
+	print_length = len->n;
 	free(len);
-	return (omg);
+	return (print_length);
 }

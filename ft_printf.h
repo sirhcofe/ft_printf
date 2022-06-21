@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:16:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/20 20:56:59 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 20:23:49 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef struct s_flags
 	int		plus;
 	int		blank;
 	int		zero;
-	int		precisn;
+	int		dot;
 	int		hash;
-	int		nmbr_bfore_prcn;
-	int		nmbr_after_prcn;
+	int		width;
+	int		precision;
 	char	chars;
 	char	*flag_str;
 }			t_flags;
@@ -51,9 +51,11 @@ void	print_number(int n, t_flags *flag, t_len *len);
 void	print_string(char *s, t_flags *flag, t_len *len);
 void	print_unsigned(unsigned int n, t_flags *flag, t_len *len);
 void	print_hex(unsigned long n, t_flags *flag, t_len *len);
-void	print_pointer(void *ptr, t_flags *flag, t_len *len);
+void	print_pointer(unsigned long ptr, t_flags *flag, t_len *len);
 
 char	*pregenerate_flag(t_flags *flag);
 char	*fill_plus_blank(char *output, t_flags *flag, long n);
+char	*fill_hash_0x(char *output, t_flags *flag);
+
 
 #endif

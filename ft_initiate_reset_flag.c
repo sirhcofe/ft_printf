@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initiate_reset_flag.c                              :+:      :+:    :+:   */
+/*   ft_initiate_reset_flag.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:26:57 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/19 19:04:43 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 18:44:10 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	initiate_flags(t_flags *flag)
 {
 	flag->flag_str = NULL;
-	flag->nmbr_bfore_prcn = 0;
-	flag->nmbr_after_prcn = 0;
+	flag->width = 0;
+	flag-> precision = 0;
 	flag->count = 0;
 	flag->minus = 0;
 	flag->plus = 0;
 	flag->blank = 0;
 	flag->zero = 0;
-	flag->precisn = 0;
+	flag->dot = 0;
 	flag->hash = 0;
 	flag->chars = 0;
 }

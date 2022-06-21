@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/20 21:08:39 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 20:19:30 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // similar to print_unsigned and print_hex
 // - converts number to string
 // - before sending the output string to write, we consider 1 condition:
-//	 - if sizeof(string) is shorter than nmbr_bfore_prcn, we append outputstring
+//	 - if sizeof(string) is shorter than width, we append outputstring
 //	   into pregenerated string, either left/right align based on minus flag
 //	 - otherwise, we ignore the pregenerated string and send the output string
 //	   to write function
@@ -26,8 +26,8 @@ void	print_number(int n, t_flags *flag, t_len *len)
 
 	output = NULL;
 	s_num = ft_itoa((long)n);
-	if (ft_strlen(s_num) < (flag->nmbr_bfore_prcn)
-		|| ft_strlen(s_num) < (flag->nmbr_after_prcn))
+	if (ft_strlen(s_num) < (flag->width)
+		|| ft_strlen(s_num) < (flag-> precision))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
@@ -37,7 +37,7 @@ void	print_number(int n, t_flags *flag, t_len *len)
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_num)), s_num,
 				(ft_strlen(s_num) + 1));
 		}
-		// free(s_num);
+		free(s_num);
 	}
 	else
 		output = ft_strdup(s_num);

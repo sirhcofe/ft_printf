@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_specifier.c                                  :+:      :+:    :+:   */
+/*   ft_print_specifier.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:45:41 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/18 22:35:29 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 13:40:11 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_flag_specifier(va_list args, t_flags *flag, t_len *len)
 	else if (flag->chars == 'x' || flag->chars == 'X')
 		print_hex(va_arg(args, unsigned int), flag, len);
 	else if (flag->chars == 'p')
-		print_pointer(va_arg(args, void *), flag, len);
+		print_pointer(va_arg(args, unsigned long), flag, len);
 	else if (flag->chars == '%')
 		print_char('%', flag, len);
 }

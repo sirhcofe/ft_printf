@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/20 20:05:53 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 20:30:50 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 {
 	char	*s;
-	
+
 	if (n >= 16)
 		ft_htoa((n / 16), s_hex, flag);
 	n %= 16;
@@ -42,13 +42,9 @@ void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 char	*hex_to_char(unsigned long n, t_flags *flag)
 {
 	char	*s_hex;
-	
+
 	s_hex = NULL;
 	ft_htoa(n, &s_hex, flag);
-	if (flag->hash != 0 && flag->chars == 'x')
-		s_hex = ft_strjoin("0x", s_hex);
-	else if (flag->hash != 0 && flag->chars == 'X')
-		s_hex = ft_strjoin("0X", s_hex);
 	return (s_hex);
 }
 
@@ -60,16 +56,17 @@ void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 	char	*output;
 
 	s_hex = hex_to_char(n, flag);
-	if (ft_strlen(s_hex) < (flag->nmbr_bfore_prcn))
+	if (ft_strlen(s_hex) < (flag->width)
+			|| ft_strlen(s_hex) < (flag->precision))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
 			ft_strlcpy(output, s_hex, ft_strlen(s_hex));
 		else
-		{
 			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_hex)), s_hex,
 				(ft_strlen(s_hex) + 1));
-		}
+		if (flag->hash != 0)
+			fill_hash_0x(output, flag);
 		ft_putstr_fd(output, 1);
 		len->n += ft_strlen(output);
 	}

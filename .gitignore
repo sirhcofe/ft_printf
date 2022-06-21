@@ -1,7 +1,7 @@
 objects
+*.a
 *.o
-main.c
+main*
 *.dSYM
-libftprintf.a
 tester
 test

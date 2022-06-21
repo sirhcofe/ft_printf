@@ -1,41 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_fn.c                                        :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 21:05:29 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/20 21:28:00 by chenlee          ###   ########.fr       */
+/*   Created: 2022/06/21 16:57:44 by chenlee           #+#    #+#             */
+/*   Updated: 2022/06/21 20:21:57 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
-
-char	*fill_plus_blank(char *output, t_flags *flag, long n)
-{
-	char	*temp;
-	int		i;
-
-	temp = ft_calloc(sizeof(char), 2);
-	temp[0] = ((flag->plus != 0) * '+') + ((flag->blank != 0) * ' ')
-		+ ((n < 0) * '-');
-	if ((flag->nmbr_bfore_prcn == 0 && flag->nmbr_after_prcn == 0)
-		|| (flag->nmbr_after_prcn) >= (flag->nmbr_bfore_prcn))
-		output = ft_strjoin(temp, output);
-	else
-	{
-		i = 0;
-		while (output[i] == ' ')
-			i++;
-		if (i == 0 && output[0] == '0')
-			output[i] = temp[0];
-		else
-			output[i - 1] = temp[0];
-	}
-	return (output);
-}
 
 // initial allocation of spaces based on number_before_precision
 char	*ft_spalloc(int count, int size)
@@ -83,32 +59,30 @@ void	fill_width(char *output, t_flags *flag, int n)
 }
 
 // ----- pregeneration of string -----
-// line 80-88: if statement tries to allocate spaces if there's nmbr_bfore_prcn;
+// line 80-88: if statement tries to allocate spaces if there's width;
 // 			   however if we are printing numbers, we need to consider if
-//			   (nmbr_after_prcn > nmbr_bfore_prcn) in which if true, we will
-//			   instead allocate spaces based on nmbr_after_prcn
+//			   ( precision > width) in which if true, we will
+//			   instead allocate spaces based on  precision
 // line 89-95: if there is a zero flag, fill_width spaces with 0
-//			   if (nmbr_after_prcn != NULL), fill_width nmbr_after_prcn of 0
+//			   if ( precision != NULL), fill_width  precision of 0
 char	*pregenerate_flag(t_flags *flag)
 {
 	char	*output;
 
 	output = NULL;
-	if ((ft_strchr("csp%", flag->chars) == 0)
-		&& (flag->nmbr_bfore_prcn) <= (flag->nmbr_after_prcn))
+	if (flag->width > 0)
 	{
-		output = ft_spalloc(flag->nmbr_after_prcn, sizeof(char));
+		if (flag-> precision > flag->width)
+			output = ft_spalloc(flag-> precision, sizeof(char));
+		else
+			output = ft_spalloc(flag->width, sizeof(char));
 	}
-	else if (flag->nmbr_bfore_prcn != 0)
+	if (ft_strchr("cs%", flag->chars) == 0)
 	{
-		output = ft_spalloc(flag->nmbr_bfore_prcn, sizeof(char));
-	}
-	if (ft_strchr("csp%", flag->chars) == 0)
-	{
-		if (flag->nmbr_after_prcn > 0)
-			fill_width(output, flag, (flag->nmbr_after_prcn));
+		if (flag-> precision > 0)
+			fill_width(output, flag, (flag-> precision));
 		else if (flag->zero != 0)
-			fill_width(output, flag, (flag->nmbr_bfore_prcn));
+			fill_width(output, flag, (flag->width));
 	}
 	return (output);
 }

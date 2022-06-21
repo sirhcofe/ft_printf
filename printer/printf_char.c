@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:08 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/20 21:26:06 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/21 18:44:10 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	print_char(int c, t_flags *flag, t_len *len)
 {
 	char	*output;
+	int		i;
 
 	output = pregenerate_flag(flag);
 	if (output == NULL)
@@ -28,9 +29,11 @@ void	print_char(int c, t_flags *flag, t_len *len)
 		if (flag->minus != 0)
 			output[0] = c;
 		else
-			output[ft_strlen(output) - 1] = c;
-		ft_putstr_fd(output, 1);
-		len->n += ft_strlen(output);
+			output[flag->width - 1] = c;
+		i = 0;
+		while (i < flag->width)
+			write(1, &output[i++], 1);
+		len->n += (flag->width * 1);
 		free(output);
 	}
 }
