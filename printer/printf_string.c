@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/21 18:44:10 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/23 19:12:30 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_string(char *s, t_flags *flag, t_len *len)
 
 	if (!s)
 		print_string("(null)", flag, len);
-	else if (ft_strlen(s) < (flag->width))
+	else if (flag->width > ft_strlen(s) || flag->precision < ft_strlen(s))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->minus != 0)
