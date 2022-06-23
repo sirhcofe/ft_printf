@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/23 18:50:44 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/23 20:46:38 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	print_number(int n, t_flags *flag, t_len *len)
 
 	output = NULL;
 	s_num = ft_itoa((long)n);
-	if (flag->width > ft_strlen(s_num) || flag->precision > ft_strlen(s_num)
+	if (flag->width > ft_strlen(s_num) || flag->precision > ft_strlen(s_num))
 	{
 		output = pregenerate_flag(flag);
 		if (flag->precision > ft_strlen(s_num))
 			fill_width_zeros(output, flag, flag->precision);
 		else if (flag->zero != 0)
 			fill_width_zeros(output, flag, ft_strlen(output));
-		fill_chars(output, flag);
+		fill_chars(output, s_num, flag);
 	}
 	else
 		output = ft_strdup(s_num);

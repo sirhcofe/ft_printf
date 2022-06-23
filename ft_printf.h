@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:16:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/21 20:23:49 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:19:17 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	print_unsigned(unsigned int n, t_flags *flag, t_len *len);
 void	print_hex(unsigned long n, t_flags *flag, t_len *len);
 void	print_pointer(unsigned long ptr, t_flags *flag, t_len *len);
 
-char	*pregenerate_flag(t_flags *flag);
+void	fill_chars(char *output, char *src, t_flags *flag);
+void	fill_width_zeros(char *output, t_flags *flag, int n);
+
+char	*pregenerate_flag(t_flags *flag, int condition);
 char	*fill_plus_blank(char *output, t_flags *flag, long n);
 char	*fill_hash_0x(char *output, t_flags *flag);
 

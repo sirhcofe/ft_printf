@@ -6,31 +6,46 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/23 19:12:30 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:50:26 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
+void	continue_fn(char *output, char *source, t_flags *flag)
+{
+	fill_chars(output, s, flag);
+	ft_putstr_fd(output, 1);
+	len->n += ft_strlen(output);
+	free(output);
+}
+
+// first if:  if format string is null, print "(null)"
+// second if: for ft_printf("-%10s-", "abcde");  -> -     abcde-
+//                ft_printf("-%4.2s-", "abcde"); -> -  ab-
+// third if:  for ft_printf("-%2.4s-", "abcde"); -> -abcd-
+// fourth if: for ft_printf("-%s-", "abcde");    -> -abcde-
+//                ft_printf("-%2.9s-", "abcde"); -> -abcde-
 void	print_string(char *s, t_flags *flag, t_len *len)
 {
 	char	*output;
 
 	if (!s)
 		print_string("(null)", flag, len);
-	else if (flag->width > ft_strlen(s) || flag->precision < ft_strlen(s))
+	else if (flag->width > ft_strlen(s)
+		|| (flag->width > flag->precision && flag->precision < ft_strlen(s)))
 	{
-		output = pregenerate_flag(flag);
-		if (flag->minus != 0)
-			ft_strlcpy(output, s, (flag->width));
-		else
-			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s)), s,
-				(ft_strlen(s) + 1));
-		ft_putstr_fd(output, 1);
-		len->n += ft_strlen(output);
-		free(output);
+		output = pregenerate_flag(flag, 1);
+		continue_fn(output, s, flag);
 	}
-	else
+	else if (flag->width < flag->precision && flag->precision < ft_strlen(s))
+	{
+		output = pregenerate_flag(flag, 2);
+		continue_fn(output, s, flag);
+	}
+	else if ((flag->width == 0 && flag->precision == 0)
+		|| (flag->width < ft_strlen(s) && flag->precision > ft_strlen(s)))
 	{
 		ft_putstr_fd(s, 1);
 		len->n += ft_strlen(s);
