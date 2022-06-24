@@ -6,16 +6,15 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/23 21:50:26 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:30:58 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-void	continue_fn(char *output, char *source, t_flags *flag)
+void	continue_fn(char *output, char *source, t_flags *flag, t_len *len)
 {
-	fill_chars(output, s, flag);
+	fill_chars(output, source, flag);
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
 	free(output);
@@ -37,12 +36,12 @@ void	print_string(char *s, t_flags *flag, t_len *len)
 		|| (flag->width > flag->precision && flag->precision < ft_strlen(s)))
 	{
 		output = pregenerate_flag(flag, 1);
-		continue_fn(output, s, flag);
+		continue_fn(output, s, flag, len);
 	}
 	else if (flag->width < flag->precision && flag->precision < ft_strlen(s))
 	{
 		output = pregenerate_flag(flag, 2);
-		continue_fn(output, s, flag);
+		continue_fn(output, s, flag, len);
 	}
 	else if ((flag->width == 0 && flag->precision == 0)
 		|| (flag->width < ft_strlen(s) && flag->precision > ft_strlen(s)))

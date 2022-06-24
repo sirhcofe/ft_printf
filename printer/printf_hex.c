@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/21 20:30:50 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/06/24 23:05:05 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,21 @@ void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 	char	*output;
 
 	s_hex = hex_to_char(n, flag);
-	if (ft_strlen(s_hex) < (flag->width)
-			|| ft_strlen(s_hex) < (flag->precision))
+	if (flag->width > ft_strlen(s_hex) || flag->precision > ft_strlen(s_hex))
 	{
-		output = pregenerate_flag(flag);
-		if (flag->minus != 0)
-			ft_strlcpy(output, s_hex, ft_strlen(s_hex));
+		if (flag->width > ft_strlen(s_hex) && flag->width > flag->precision)
+			output = pregenerate_flag(flag, 1);
 		else
-			ft_strlcpy((output + ft_strlen(output) - ft_strlen(s_hex)), s_hex,
-				(ft_strlen(s_hex) + 1));
-		if (flag->hash != 0)
-			fill_hash_0x(output, flag);
-		ft_putstr_fd(output, 1);
-		len->n += ft_strlen(output);
+			output = pregenerate_flag(flag, 2);
+		fill_width_zeros(output, flag);
+		fill_chars(output, s_hex, flag);
 	}
 	else
-	{
-		ft_putstr_fd(s_hex, 1);
-		len->n += ft_strlen(s_hex);
-	}
+		output = ft_strdup(s_hex);
+	if (flag->hash != 0)
+		output = fill_hash_0x(output, flag);
+	ft_putstr_fd(output, 1);
+	len->n += ft_strlen(output);
 	free(s_hex);
+	free(output);
 }
