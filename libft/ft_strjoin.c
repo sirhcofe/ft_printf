@@ -21,17 +21,21 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (0);
 	else if (s1 && !s2)
-		return (ft_strdup(s1));
+		ptr = ft_strdup(s1);
 	else if (!s1 && s2)
-		return (ft_strdup(s2));
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ptr = malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!ptr)
-		return (0);
-	ft_memmove (ptr, s1, s1_len);
-	ft_memmove ((ptr + s1_len), s2, s2_len);
-	ptr[s1_len + s2_len] = '\0';
+		ptr = ft_strdup(s2);
+	else
+	{
+		s1_len = ft_strlen(s1);
+		s2_len = ft_strlen(s2);
+		ptr = malloc(sizeof(char) * (s1_len + s2_len + 1));
+		if (!ptr)
+			return (0);
+		ft_memmove (ptr, s1, s1_len);
+		ft_memmove ((ptr + s1_len), s2, s2_len);
+		ptr[s1_len + s2_len] = '\0';
+	}
+	free((void *)s1);
 	free((void *)s2);
 	return (ptr);
 }

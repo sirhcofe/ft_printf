@@ -6,31 +6,42 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:26 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/24 23:04:54 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/03 21:45:58 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
+
+// append chars into pregenerated string
+// first nested-if considers any specifiers except 's'
 
 void	fill_chars(char *output, char *src, t_flags *flag)
 {
-	if (ft_strchr("s", flag->chars) == 0 || (ft_strchr("s", flag->chars) != 0
-			&& flag->precision > ft_strlen(src)))
+	if (flag->chars != 's')
 	{
 		if (flag->minus != 0)
 			ft_strlcpy(output, src, (ft_strlen(src) + 1));
 		else
-			ft_strlcpy((output + ft_strlen(output) - ft_strlen(src)), src,
-				(ft_strlen(src) + 1));
+			ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
+				ft_strlen(src) + 1);
 	}
-	else if (ft_strchr("s", flag->chars) != 0
-		&& flag->precision < ft_strlen(src))
+	else
 	{
 		if (flag->minus != 0)
-			ft_strlcpy(output, src, flag->precision + 1);
+			ft_strlcpy(output, src,
+				((ft_strlen(src) >= flag->precision) * (ft_strlen(src) + 1)
+					+ (flag->precision > ft_strlen(src))
+					* (flag->precision + 1)));
 		else
-			ft_strlcpy((output + ft_strlen(output) - flag->precision), src,
-				(flag->precision + 1));
+		{
+			if (ft_strlen(src) >= flag->precision)
+				ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
+					ft_strlen(src) + 1);
+			else if (flag->precision > ft_strlen(src))
+				ft_strlcpy(output + ft_strlen(output) - flag->precision, src,
+					flag->precision + 1);
+		}
 	}
 }
 
@@ -67,7 +78,7 @@ void	fill_width_zeros(char *output, t_flags *flag)
 //                             if first index is '0', strjoin '+' or ' '
 //                             otherwise, go to index before output[i] = '0'
 //                                        and change it to '+' or ' '
-void	fill_plus_blank(char *output, t_flags *flag, long n)
+char	*fill_plus_blank(char *output, t_flags *flag, long n)
 {
 	char	*temp;
 	int		i;
@@ -89,6 +100,7 @@ void	fill_plus_blank(char *output, t_flags *flag, long n)
 			output[i - 1] = temp[0];
 		free(temp);
 	}
+	return (output);
 }
 
 // first 2 ifs initiate temp with "0x" or "0X" depending on flag->chars
@@ -104,9 +116,14 @@ char	*fill_hash_0x(char *output, t_flags *flag)
 		temp = ft_strdup("0x");
 	else if (flag->chars == 'X')
 		temp = ft_strdup("0X");
-	if ((flag->width == 0 && flag->precision == 0)
-		|| (flag->precision) >= (flag->width))
+	if (output[0] != ' ' && output[1] != ' ')
 		output = ft_strjoin(temp, output);
+	else if (output[0] == ' ' && output[1] != ' ')
+	{
+		output[0] = (flag->chars == 'x') * 'x' + (flag->chars == 'X') * 'X';
+		output = ft_strjoin(ft_strdup("0"), output);
+		free(temp);
+	}
 	else
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:18 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/24 20:14:47 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/03 17:56:55 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_unsigned(unsigned int n, t_flags *flag, t_len *len)
 	else
 		output = ft_strdup(s_num);
 	if (flag->plus != 0 || flag->blank != 0 || n > 0)
-		fill_plus_blank(output, flag, n);
+		output = fill_plus_blank(output, flag, n);
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
 	free(s_num);

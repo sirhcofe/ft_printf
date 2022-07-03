@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/06/24 16:16:23 by chenlee          ###   ########.fr        #
+#    Updated: 2022/06/26 15:51:05 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ $(NAME):		$(OBJS)
 				@ar rc $(NAME) $(OBJS) $(LIBFT_OBJS)
 
 test : all main.c
-				gcc -fsanitize=address -g3 -L. -lftprintf main.c -o test && ./test
+				gcc -L. -lftprintf main.c -o test && ./test
 
 all:			$(NAME)
 

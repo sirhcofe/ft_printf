@@ -6,11 +6,12 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/24 23:05:05 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/03 21:39:46 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 // itoa, but for hex
 void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
