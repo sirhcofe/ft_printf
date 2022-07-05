@@ -6,11 +6,23 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/03 17:56:29 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/05 21:33:01 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
+
+static void	continue_fn(char *output, int n, t_flags *flag, t_len *len)
+{
+	if ((flag->plus != 0 || flag->blank != 0) && n > 0)
+		output = fill_plus_blank(output, flag, n);
+	if (n < 0)
+		output = fill_minus(output, flag);
+	ft_putstr_fd(output, 1);
+	len->n += ft_strlen(output);
+	free(output);
+}
 
 // similar to print_unsigned and print_hex
 // - converts number to string
@@ -25,10 +37,12 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	char	*output;
 
 	output = NULL;
+	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && n == 0)
+		return ;
 	s_num = ft_itoa((long)n);
-	if (flag->width > ft_strlen(s_num) || flag->precision > ft_strlen(s_num))
+	if (flag->width > ft_strlen(s_num) || flag->prcn > ft_strlen(s_num))
 	{
-		if (flag->width > ft_strlen(s_num) && flag->width > flag->precision)
+		if (flag->width > ft_strlen(s_num) && flag->width > flag->prcn)
 			output = pregenerate_flag(flag, 1);
 		else
 			output = pregenerate_flag(flag, 2);
@@ -37,10 +51,6 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	}
 	else
 		output = ft_strdup(s_num);
-	if (flag->plus != 0 || flag->blank != 0 || n > 0)
-		output = fill_plus_blank(output, flag, n);
-	ft_putstr_fd(output, 1);
-	len->n += ft_strlen(output);
+	continue_fn(output, n, flag, len);
 	free(s_num);
-	free(output);
 }

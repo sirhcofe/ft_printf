@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/03 16:49:58 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	parse_number(const char *format, t_flags *flag, int *i)
 	if (flag->dot == 0)
 		flag->width = ft_atoi(temp);
 	else
-		flag->precision = ft_atoi(temp);
+		flag->prcn = ft_atoi(temp);
 	*i = *i + j - 1;
 	free(temp);
 }

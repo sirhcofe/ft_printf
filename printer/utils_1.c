@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:44 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/03 17:56:01 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ char	*pregenerate_flag(t_flags *flag, int condition)
 	if (condition == 1)
 		output = ft_spalloc(flag->width, sizeof(char));
 	else if (condition == 2)
-		output = ft_spalloc(flag->precision, sizeof(char));
+		output = ft_spalloc(flag->prcn, sizeof(char));
 	return (output);
 }

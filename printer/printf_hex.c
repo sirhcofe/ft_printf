@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/03 21:39:46 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	print_hex(unsigned long n, t_flags *flag, t_len *len)
 	char	*output;
 
 	s_hex = hex_to_char(n, flag);
-	if (flag->width > ft_strlen(s_hex) || flag->precision > ft_strlen(s_hex))
+	if (flag->width > ft_strlen(s_hex) || flag->prcn > ft_strlen(s_hex))
 	{
-		if (flag->width > ft_strlen(s_hex) && flag->width > flag->precision)
+		if (flag->width > ft_strlen(s_hex) && flag->width > flag->prcn)
 			output = pregenerate_flag(flag, 1);
 		else
 			output = pregenerate_flag(flag, 2);

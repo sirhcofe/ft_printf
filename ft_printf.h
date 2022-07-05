@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:16:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/03 17:57:10 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/05 21:33:26 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_flags
 	int		dot;
 	int		hash;
 	int		width;
-	int		precision;
+	int		prcn;
 	char	chars;
 	char	*flag_str;
 }			t_flags;
@@ -57,6 +57,7 @@ void	fill_chars(char *output, char *src, t_flags *flag);
 void	fill_width_zeros(char *output, t_flags *flag);
 char	*fill_plus_blank(char *output, t_flags *flag, long n);
 char	*fill_hash_0x(char *output, t_flags *flag);
+char	*fill_minus(char *output, t_flags *flag);
 
 char	*pregenerate_flag(t_flags *flag, int condition);
 
