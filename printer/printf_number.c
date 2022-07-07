@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 21:33:01 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/07 00:10:42 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 
 static void	continue_fn(char *output, int n, t_flags *flag, t_len *len)
 {
+	// printf("THIS DID RUN\n");
 	if ((flag->plus != 0 || flag->blank != 0) && n > 0)
 		output = fill_plus_blank(output, flag, n);
 	if (n < 0)
+	{
+		printf("THIS DID RUN\n");
 		output = fill_minus(output, flag);
+	}
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
 	free(output);
@@ -40,6 +44,8 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && n == 0)
 		return ;
 	s_num = ft_itoa((long)n);
+	printf("s_num:%s\n", s_num);
+	printf("n:%d\n", n);
 	if (flag->width > ft_strlen(s_num) || flag->prcn > ft_strlen(s_num))
 	{
 		if (flag->width > ft_strlen(s_num) && flag->width > flag->prcn)

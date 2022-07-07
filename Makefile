@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/06/26 15:51:05 by chenlee          ###   ########.fr        #
+#    Updated: 2022/07/07 02:51:51 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ MNDT		=	printf_char.c			\
 				printf_unsigned.c		\
 				utils_1.c				\
 				utils_2.c				\
+				utils_3.c				\
 				ft_print_specifier.c	\
 				ft_initiate_reset_flag.c
 
@@ -49,11 +50,11 @@ $(NAME):		$(OBJS)
 				@ar rc $(NAME) $(OBJS) $(LIBFT_OBJS)
 
 test : all main.c
-				gcc -L. -lftprintf main.c -o test && ./test
+				gcc -L. main.c -lftprintf -o test && ./test
 
-all:			$(NAME)
+all:	$(NAME)
 
-bonus: $(NAME)
+bonus: 	$(NAME)
 
 clean:
 				@rm -rf $(OBJS_DIR)
