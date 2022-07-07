@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/07 23:12:52 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	identify_spec(const char *format, t_flags *flag)
 			flag->plus += 1;
 		else if (format[i] == ' ')
 			flag->blank += 1;
-		else if (format[i] == '0' && ft_strchr(NUMBER, format[i - 1]) == 0)
+		else if (format[i] == '0' && ft_strchr(NUMBER, format[i - 1]) == 0
+			&& flag->dot == 0)
 			flag->zero += 1;
 		else if (format[i] == '#')
 			flag->hash += 1;
@@ -73,7 +74,7 @@ void	parse_format(const char *format, va_list args, t_len *len)
 			{
 				flag->count += 1;
 				if (ft_strchr(CHARACTER, format[i]))
-					break;
+					break ;
 			}
 			identify_spec((format + i + 1 - flag->count), flag);
 			if (flag->chars != 0)

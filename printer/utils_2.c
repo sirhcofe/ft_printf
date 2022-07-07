@@ -6,12 +6,30 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:26 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/07 02:51:23 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/07 18:16:53 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+
+void	fill_numbr(char *output, char *src, t_flags *flag)
+{
+	if (!(flag->dot != 0 && flag->prcn == 0))
+	{
+		if (flag->minus == 0)
+			ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
+				ft_strlen(src));
+		else
+		{
+			if (flag->prcn <= ft_strlen(src))
+				ft_strlcpy(output, src, ft_strlen(src) + 1);
+			else if (flag->prcn > ft_strlen(src))
+				ft_strlcpy(output + flag->prcn - ft_strlen(src), src,
+					ft_strlen(src));
+		}
+	}
+}
 
 // append chars into pregenerated string
 // 1st nested-if considers any specifiers except 's' or 's' without precision
@@ -23,9 +41,8 @@
 // have a stroke reading this :)
 void	fill_chars(char *output, char *src, t_flags *flag)
 {
-	if (flag->chars != 's'
-		|| (flag->chars == 's' && (flag->width > ft_strlen(src) && flag->width
-					> flag->prcn && flag->prcn == 0)))
+	if (flag->width > ft_strlen(src) && flag->width > flag->prcn
+			&& flag->prcn == 0)
 	{
 		if (flag->minus != 0)
 			ft_strlcpy(output, src, (ft_strlen(src) + 1));
@@ -59,7 +76,7 @@ void	fill_width_zeros(char *output, t_flags *flag)
 	{
 		if (flag->minus != 0)
 		{
-			while (i < (flag->prcn + 1))
+			while (i < (flag->prcn))
 				output[i++] = '0';
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 21:09:18 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/07 19:04:08 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static void	continue_fn(char *output, char *source, t_flags *flag, t_len *len)
 {
-	// printf("output:+%s+\n", output);
 	if (!(flag->dot != 0 && flag->prcn == 0))
 		fill_chars(output, source, flag);
 	ft_putstr_fd(output, 1);

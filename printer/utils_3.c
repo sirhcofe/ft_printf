@@ -11,8 +11,28 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
-char	*move_and_extract()
+char	*move_and_extract(char *string, char *temp)
+{
+	char	*output;
+	int		i;
+	int		count;
+
+	string = ft_strjoin(temp, string);
+	i = 0;
+	count = 0;
+	while (string[i] != '\0')
+	{
+		if (string[i] == ' ')
+			count++;
+		i++;
+	}
+	output = ft_substr(string, 0, ft_strlen(string) - ((count >= ft_strlen(temp)
+					* ft_strlen(temp)) + (ft_strlen(temp) > count) * count));
+	free(string);
+	return (output);
+}
 
 // first if runs when: 1. there's no width and prcn (eg: %s, "abc")
 //                     2. prcn > width (eg: %2.4d, 69)
@@ -77,34 +97,46 @@ char	*fill_hash_0x(char *output, t_flags *flag)
 	return (output);
 }
 
+// continuation of fill_minus, because norme 25 lines limit xd
+char	*continue_fill_minus(char *output, char *temp, t_flags *flag)
+{
+	int	i;
+
+	i = 0;
+	if (flag->minus == 0)
+	{
+		while (output[i] == ' ')
+			i++;
+		output[i - 1] = '-';
+		free(temp);
+	}
+	else if (flag->minus != 0)
+		output = move_and_extract(output, temp);
+	return (output);
+}
+
+// to fill '-' in case number is negative (less than zero)
+// there will be 2 condition:
+//		1st: there is no space in output string, ie "0000123"
+//		2nd: there are space(s) in output string, ie "   00123"
+// if 1st condition is true, we will have 2 outputs:
+//		
 char	*fill_minus(char *output, t_flags *flag)
 {
 	char	*temp;
-	int		i;
 
 	temp = ft_strdup("-");
-	if (flag->minus == 0)
+	if (ft_strchr(output, ' ') == 0)
 	{
-		if (output[0] != ' ')
+		if (flag->zero == 0 && ft_isdigit(output[0]) != 0)
 			output = ft_strjoin(temp, output);
-		else if (output[0] == ' ')
+		else if (flag->zero != 0)
 		{
-			i = 0;
-			while (output[i] == ' ')
-				i++;
-			output[i - 1] = '-';
+			output[0] = '-';
 			free(temp);
 		}
 	}
-	else if (flag->minus != 0)
-	{
-		i = 0;
-		while (output[i] != '\0' && output[i] != ' ')
-			i++;
-		if (i == ft_strlen(output))
-			output = ft_strjoin(temp, output);
-		else
-			output = move_and_extract(output, temp);
-	}
+	else
+		output = continue_fill_minus(output, temp, flag);
 	return (output);
 }
