@@ -121,16 +121,16 @@ char	*continue_fill_minus(char *output, char *temp, t_flags *flag)
 //		2nd: there are space(s) in output string, ie "   00123"
 // if 1st condition is true, we will have 2 outputs:
 //		
-char	*fill_minus(char *output, t_flags *flag)
+char	*fill_minus(char *output, t_flags *flag, int s_len)
 {
 	char	*temp;
 
 	temp = ft_strdup("-");
 	if (ft_strchr(output, ' ') == 0)
 	{
-		if (flag->zero == 0 && ft_isdigit(output[0]) != 0)
+		if (flag->prcn >= s_len || (output[0] >= 49 && output[0] <= 57))
 			output = ft_strjoin(temp, output);
-		else if (flag->zero != 0)
+		else
 		{
 			output[0] = '-';
 			free(temp);

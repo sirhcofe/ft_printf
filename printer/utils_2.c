@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:26 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/07 18:16:53 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/08 16:34:12 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,16 @@
 
 void	fill_numbr(char *output, char *src, t_flags *flag)
 {
-	if (!(flag->dot != 0 && flag->prcn == 0))
+	if (flag->minus == 0)
+		ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
+			ft_strlen(src));
+	else
 	{
-		if (flag->minus == 0)
-			ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
+		if (flag->prcn <= ft_strlen(src))
+			ft_strlcpy(output, src, ft_strlen(src) + 1);
+		else if (flag->prcn > ft_strlen(src))
+			ft_strlcpy(output + flag->prcn - ft_strlen(src), src,
 				ft_strlen(src));
-		else
-		{
-			if (flag->prcn <= ft_strlen(src))
-				ft_strlcpy(output, src, ft_strlen(src) + 1);
-			else if (flag->prcn > ft_strlen(src))
-				ft_strlcpy(output + flag->prcn - ft_strlen(src), src,
-					ft_strlen(src));
-		}
 	}
 }
 
