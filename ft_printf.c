@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/07 23:12:52 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:43:10 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	parse_format(const char *format, va_list args, t_len *len)
 	free(flag);
 }
 
+// ft_printf
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
