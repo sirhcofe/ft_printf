@@ -6,13 +6,13 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:18 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 21:04:37 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:40:08 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	continue_fn(char *output, unsigned int n, t_flags *flag, t_len *len)
+void	continue_uint(char *output, unsigned int n, t_flags *flag, t_len *len)
 {
 	if ((flag->plus != 0 || flag->blank != 0) && n > 0)
 		output = fill_plus_blank(output, flag, n);
@@ -32,17 +32,20 @@ void	print_unsigned(unsigned int n, t_flags *flag, t_len *len)
 	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && n == 0)
 		return ;
 	s_num = ft_itoa((long)n);
-	if (flag->width > ft_strlen(s_num) || flag->prcn > ft_strlen(s_num))
+	if (flag->width >= ft_strlen(s_num) || flag->prcn >= ft_strlen(s_num))
 	{
-		if (flag->width > ft_strlen(s_num) && flag->width > flag->prcn)
+		if (flag->width > flag->prcn)
 			output = pregenerate_flag(flag, 1);
 		else
 			output = pregenerate_flag(flag, 2);
-		fill_width_zeros(output, flag);
-		fill_chars(output, s_num, flag);
+		if (!(flag->dot != 0 && flag->prcn == 0 && n == 0))
+		{
+			fill_width_zeros(output, flag);
+			fill_chars(output, s_num, flag);
+		}
 	}
 	else
 		output = ft_strdup(s_num);
-	continue_fn(output, n, flag, len);
+	continue_uint(output, n, flag, len);
 	free(s_num);
 }

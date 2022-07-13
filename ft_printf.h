@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:16:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/08 14:03:46 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/11 21:54:53 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "./libft/libft.h"
 
 # define ALL "cspdiuxX%-0# +123456789."
-# define CHARACTER "cspdiufxX%"
+# define CHARACTER "cspdiuxX%"
 # define NUMBER "123456789"
 
 typedef struct s_len
@@ -53,12 +53,15 @@ void	print_unsigned(unsigned int n, t_flags *flag, t_len *len);
 void	print_hex(unsigned long n, t_flags *flag, t_len *len);
 void	print_pointer(void *ptr, t_flags *flag, t_len *len);
 
+void	fill_strings(char *output, char *src, t_flags *flag);
 void	fill_chars(char *output, char *src, t_flags *flag);
-void	fill_numbr(char *output, char *src, t_flags *flag);
+void	fill_hex(char *output, char *src, t_flags *flag);
 void	fill_width_zeros(char *output, t_flags *flag);
-char	*fill_plus_blank(char *output, t_flags *flag, long n);
+char	*fill_plus_blank(char *output, t_flags *flag, int str_len);
 char	*fill_hash_0x(char *output, t_flags *flag);
-char	*fill_minus(char *output, t_flags *flag, int s_len);
+char	*fill_minus(char *output, t_flags *flag, int str_len);
+
+char	*hex_to_char(unsigned long n, t_flags *flag);
 
 char	*pregenerate_flag(t_flags *flag, int condition);
 

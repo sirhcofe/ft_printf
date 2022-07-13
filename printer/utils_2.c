@@ -6,86 +6,121 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:26 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/08 16:34:12 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 02:01:43 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-void	fill_numbr(char *output, char *src, t_flags *flag)
+char	*move_and_extract(char *string, char *temp)
 {
-	if (flag->minus == 0)
-		ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
-			ft_strlen(src));
-	else
+	char	*output;
+	int		i;
+	int		count;
+	int		temp_len;
+
+	temp_len = ft_strlen(temp);
+	i = 0;
+	count = 0;
+	while (string[i++] != '\0')
 	{
-		if (flag->prcn <= ft_strlen(src))
-			ft_strlcpy(output, src, ft_strlen(src) + 1);
-		else if (flag->prcn > ft_strlen(src))
-			ft_strlcpy(output + flag->prcn - ft_strlen(src), src,
-				ft_strlen(src));
+		if (string[i] == ' ')
+			count++;
 	}
+	string = ft_strjoin(temp, string);
+	output = ft_substr(string, 0, ft_strlen(string) - ((count >= temp_len
+					* temp_len) + (temp_len > count) * count));
+	free(string);
+	return (output);
 }
 
-// append chars into pregenerated string
-// 1st nested-if considers any specifiers except 's' or 's' without precision
-// 2nd nested-if considers the rest of 's' condition:
-//		- 1st if: to append from left
-//		- 2nd if: to append from right
-//		in which for 2nd nested-if, both if cases the functions only copy format
-//		string up to either ft_strlen(source) or flag->prcn whichever is bigger
-// have a stroke reading this :)
-void	fill_chars(char *output, char *src, t_flags *flag)
-{
-	if (flag->width > ft_strlen(src) && flag->width > flag->prcn
-			&& flag->prcn == 0)
-	{
-		if (flag->minus != 0)
-			ft_strlcpy(output, src, (ft_strlen(src) + 1));
-		else
-			ft_strlcpy(output + ft_strlen(output) - ft_strlen(src), src,
-				ft_strlen(src) + 1);
-	}
-	else
-	{
-		if (flag->minus != 0)
-			ft_strlcpy(output, src,
-				((ft_strlen(src) >= flag->prcn) * (flag->prcn)
-					+ (flag->prcn > ft_strlen(src))
-					* (ft_strlen(src))));
-		else
-			ft_strlcpy(output + ft_strlen(output) - ((flag->prcn
-						>= ft_strlen(src)) * ft_strlen(src) + (ft_strlen(src)
-						> flag->prcn) * flag->prcn), src,
-				((flag->prcn >= ft_strlen(src)) * ft_strlen(src)
-					+ (ft_strlen(src) > flag->prcn) * flag->prcn));
-	}
-}
-
-// to fill the spaces with 0 when zero flag or number_after_prcn is used
-void	fill_width_zeros(char *output, t_flags *flag)
+// - to fill symbols '+', '-', ' ', etc... we need to consider 2 conditions:
+//   1. there is no spaces available
+//          example: printf("=%3d=", 12345)   -> =12345=
+//                   printf("=%010d=", 12345) -> =0000012345=
+//   2. there are still spaces available in the string
+//          example: printf("=%10d=", 12345)   -> =     12345=
+//                   printf("=%10.8d=", 12345) -> =  00012345=
+// - if condition 1 is true:
+//      1.1 if the 0th index of output string is from precision '0' or from the
+//          va_args number itself, we strjoin the symbols with output string
+//              example: printf("=.10d=", -12345) -> =-0000012345=
+//                       printf("=5d=", -12345)   -> =-12345=
+//      1.2 else if the 0th index of output string is from zero flag, we replace
+//          the 0th index with the symbols
+//              example: printf("=010d=")
+// - 
+char	*continue_fill(char *output, char *temp, int str_len, t_flags *flag)
 {
 	int	i;
 
-	i = 0;
-	if (flag->prcn != 0)
+	if (ft_strchr(output, ' ') == 0)
 	{
-		if (flag->minus != 0)
-		{
-			while (i < (flag->prcn))
-				output[i++] = '0';
-		}
+		if (flag->prcn >= str_len || (output[0] >= 49 && output[0] <= 57))
+			return (ft_strjoin(temp, output));
 		else
-		{
-			i = 1;
-			while (i < (flag->prcn + 1))
-				output[ft_strlen(output) - i++] = '0';
-		}
+			ft_strlcpy(output, temp, ft_strlen(temp));
+		free(temp);
 	}
-	else if (flag->zero != 0)
+	else
 	{
-		while (i < ft_strlen(output))
-			output[i++] = '0';
+		i = 0;
+		if (flag->minus == 0)
+		{
+			while (output[i] == ' ')
+				i++;
+			ft_strlcpy(output + i - ft_strlen(temp), temp, ft_strlen(temp));
+			free(temp);
+		}
+		else if (flag->minus != 0)
+			output = move_and_extract(output, temp);
 	}
+	return (output);
 }
+
+// - fills '+' flag or ' ' flag (only for positive number)
+// - calls continue_fill except for one condition:
+//   since n = 0 is considered to be positive, so when we encounter conditions:
+//      printf("%+d", 0) or printf("% d", 0)
+//   we need to append '+' and ' ' too
+//   to not confuse '0' from va_args and '0' printed from precision/zero flags
+//      printf("%.10d", 0) -> 0000000000    (what? which 0 is which?)
+//   we create an additional if statement
+char	*fill_plus_blank(char *output, t_flags *flag, int str_len)
+{
+	char	*temp;
+
+	temp = ft_calloc(sizeof(char), 2);
+	temp[0] = (((flag->plus != 0) * '+') + ((flag->blank != 0) * ' '));
+	if (flag->prcn < str_len && output[0] == '0')
+		output = ft_strjoin(temp, output);
+	else
+		output = continue_fill(output, temp, str_len, flag);
+	return (output);
+}
+
+// - fills '-' flag (only for negative number)
+// - calls continue_fill
+char	*fill_minus(char *output, t_flags *flag, int str_len)
+{
+	char	*temp;
+
+	temp = ft_strdup("-");
+	output = continue_fill(output, temp, str_len, flag);
+	return (output);
+}
+
+// 	else if (output[0] == ' ' && output[1] != ' ')
+// 	{
+// 		output[0] = (flag->chars == 'x') * 'x' + (flag->chars == 'X') * 'X';
+// 		output = ft_strjoin(ft_strdup("0"), output);
+// 		free(temp);
+// 	}
+// 	else
+// 	{
+// 		i = 0;
+// 		while (output[i] == ' ')
+// 			i++;
+// 		ft_strlcpy((output + i - 2), temp, 3);
+// 		free(temp);
+// 	}

@@ -6,13 +6,21 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:08 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/23 21:29:31 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:17:00 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
+// - easiest specifier to deal with :')
+// - pregenerate string if width exist
+//     example: ft_printf("=%10c=")
+//   then conisder '-' flag which if true will append char(c) from left instead
+//   of from right
+//     example: ft_printf("=%-10c=", 'c') -> =c         =
+//              ft_printf("=%10c=", 'c')  -> =         c=
+// - otherwise, just write
+//     example: ft_printf("=%c=")
 void	print_char(int c, t_flags *flag, t_len *len)
 {
 	char	*output;

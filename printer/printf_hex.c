@@ -6,14 +6,12 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:56:48 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:39:44 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-// itoa, but for hex
 void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 {
 	char	*s;
@@ -37,9 +35,6 @@ void	ft_htoa(unsigned long n, char **s_hex, t_flags *flag)
 	}
 }
 
-// - calls ft_htoa, but checks for hash flag
-// - if true, appends 0x or 0X to front of string if specifier is 'x' or 'X'
-//	 respectively
 char	*hex_to_char(unsigned long n, t_flags *flag)
 {
 	char	*s_hex;
@@ -49,29 +44,49 @@ char	*hex_to_char(unsigned long n, t_flags *flag)
 	return (s_hex);
 }
 
-// - similar to print_number and print_unsigned
-// (see printer/print_number.c for full explaination)
-void	print_hex(unsigned long n, t_flags *flag, t_len *len)
+char	*continue_hex(char *output, unsigned long n, t_flags *flag)
 {
 	char	*s_hex;
-	char	*output;
 
 	s_hex = hex_to_char(n, flag);
-	if (flag->width > ft_strlen(s_hex) || flag->prcn > ft_strlen(s_hex))
+	if (flag->width >= ft_strlen(s_hex) || flag->prcn >= ft_strlen(s_hex))
 	{
-		if (flag->width > ft_strlen(s_hex) && flag->width > flag->prcn)
+		if (flag->width > flag->prcn)
 			output = pregenerate_flag(flag, 1);
 		else
 			output = pregenerate_flag(flag, 2);
-		fill_width_zeros(output, flag);
-		fill_chars(output, s_hex, flag);
+		if (!(flag->dot != 0 && flag->prcn == 0 && n == 0))
+		{
+			fill_width_zeros(output, flag);
+			fill_chars(output, s_hex, flag);
+		}
 	}
 	else
 		output = ft_strdup(s_hex);
-	if (flag->hash != 0)
+	if (flag->hash != 0 && n != 0)
 		output = fill_hash_0x(output, flag);
+	free(s_hex);
+	return (output);
+}
+
+// - technically similar to printf_number, except instead of converting number
+//   to char, we need to convert number to hex before converting to char
+// - (read printf_number for detailed explaination)
+// - for printf_hex, we do not need to consider ' ' flag or '+' flag, but we
+//   do however need to consider '#' flag
+//   And the '#' flag will be ignored if n == 0
+//   example: ft_printf("=%#x=", 123) -> =0x7b=
+//            ft_printf("=%#x=", 0)   -> =0=
+//            ft_printf("=%#x=", 1)   -> =0x1=
+void	print_hex(unsigned long n, t_flags *flag, t_len *len)
+{
+	char	*output;
+
+	output = NULL;
+	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && n == 0)
+		return ;
+	output = continue_hex(output, n, flag);
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
-	free(s_hex);
 	free(output);
 }

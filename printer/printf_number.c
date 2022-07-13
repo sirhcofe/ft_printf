@@ -6,12 +6,11 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:55:35 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/08 17:14:57 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:05:39 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 // - s_num: converts number to string excluding '-' if it's negative
 //   s_len: size of string including '-' sign if it's negative
@@ -24,8 +23,8 @@
 //          1.1: if width is bigger than prcn, pregenerate new string called
 //               output with sizeof(width)
 //          1.2: otherwise, pregenerate new string with sizeof(precision)
-//   - once pregenerated, we need to consider 0 flag and precision flag unless
-//     printf("%3.d", 0) or printf("%3.0d", 0), both flags put '0' to pregen str
+//   - once pregenerated, we need to consider 0 flag and precision flag both
+//     flag put '0' to pregen str except printf("%3.d", 0) or printf("%3.0d", 0)
 //   - once fill_width_zero, fill in the numbers into pregen str
 //   SITUATION 2:
 //   - no need to pregenerate strings and fill zeros, just duplicate string to
@@ -39,7 +38,7 @@
 //   eg_1: no 0 flag or prcn, so append '-' before numbers
 //   eg_2: 0 flag, so change output[0] to '-'
 //   eg_3: prcn flag, so strjoin "-" and output (one byte bigger)
-char	*continue_fn(char *output, int n, t_flags *flag)
+char	*continue_numbr(char *output, int n, t_flags *flag)
 {
 	char	*s_num;
 	int		s_len;
@@ -55,20 +54,19 @@ char	*continue_fn(char *output, int n, t_flags *flag)
 		if (!(flag->dot != 0 && flag->prcn == 0 && n == 0))
 		{
 			fill_width_zeros(output, flag);
-			fill_numbr(output, s_num, flag);
+			fill_chars(output, s_num, flag);
 		}
 	}
 	else
 		output = ft_strdup(s_num);
-	if ((flag->plus != 0 || flag->blank != 0) && n > 0)
-		output = fill_plus_blank(output, flag, n);
-	if (n < 0)
+	if ((flag->plus != 0 || flag->blank != 0) && n >= 0)
+		output = fill_plus_blank(output, flag, s_len);
+	else if (n < 0)
 		output = fill_minus(output, flag, s_len);
 	free(s_num);
 	return (output);
 }
 
-// similar to print_unsigned and print_hex
 void	print_number(int n, t_flags *flag, t_len *len)
 {
 	char	*output;
@@ -76,7 +74,7 @@ void	print_number(int n, t_flags *flag, t_len *len)
 	output = NULL;
 	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && n == 0)
 		return ;
-	output = continue_fn(output, n, flag);
+	output = continue_numbr(output, n, flag);
 	ft_putstr_fd(output, 1);
 	len->n += ft_strlen(output);
 	free(output);

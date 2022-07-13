@@ -6,12 +6,11 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:45:41 by chenlee           #+#    #+#             */
-/*   Updated: 2022/06/24 23:07:52 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:39:45 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 void	print_flag_specifier(va_list args, t_flags *flag, t_len *len)
 {

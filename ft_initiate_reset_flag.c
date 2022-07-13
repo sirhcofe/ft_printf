@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 18:26:57 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/05 16:54:04 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 03:41:58 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	initiate_flags(t_flags *flag)
 {
 	flag->flag_str = NULL;
 	flag->width = 0;
-	flag-> prcn = 0;
+	flag->prcn = 0;
 	flag->count = 0;
 	flag->minus = 0;
 	flag->plus = 0;
