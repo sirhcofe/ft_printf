@@ -6,15 +6,15 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:57:13 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/13 11:40:04 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/13 11:53:27 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*continue_ptr(char *output, unsigned long lu_ptr, t_flags *flag)
+char	*continue_ptr(char *output, unsigned long long lu_ptr, t_flags *flag)
 {
-	char			*s_ptr;
+	char	*s_ptr;
 
 	s_ptr = hex_to_char(lu_ptr, flag);
 	if (flag->width >= ft_strlen(s_ptr) || flag->prcn >= ft_strlen(s_ptr))
@@ -43,12 +43,12 @@ char	*continue_ptr(char *output, unsigned long lu_ptr, t_flags *flag)
 //            (ptr) ft_printf("=%p=", 0)   -> =0x0=
 void	print_pointer(void *ptr, t_flags *flag, t_len *len)
 {
-	unsigned long	lu_ptr;
-	char			*output;
+	unsigned long long	lu_ptr;
+	char				*output;
 
 	output = NULL;
 	flag->chars = 'x';
-	lu_ptr = (unsigned long)ptr;
+	lu_ptr = (unsigned long long)ptr;
 	if (flag->dot != 0 && flag->width == 0 && flag->prcn == 0 && lu_ptr == 0)
 		return ;
 	output = continue_ptr(output, lu_ptr, flag);

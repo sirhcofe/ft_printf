@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/07/13 14:20:51 by chenlee          ###   ########.fr        #
+#    Updated: 2022/07/15 13:21:54 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ MAIN		= ft_printf.c
 MNDT		=	printf_char.c			\
 				printf_hex.c			\
 				printf_number.c			\
+				printf_percent.c		\
 				printf_pointer.c		\
 				printf_string.c			\
 				printf_unsigned.c		\

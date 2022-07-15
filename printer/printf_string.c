@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:54:05 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/13 14:55:47 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/15 13:48:09 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // - now that we've pregenerated strings with spaces, it's time to fill in chars
 // - we continue to fill char except for one condition:
 //      ft_printf("10.s", "abc") or ft_printf(".s", "abc")
-static void	continue_str(char *output, char *source, t_flags *flag, t_len *len)
+void	continue_str(char *output, char *source, t_flags *flag, t_len *len)
 {
 	if (!(flag->dot != 0 && flag->prcn == 0))
 		fill_strings(output, source, flag);
@@ -24,7 +24,7 @@ static void	continue_str(char *output, char *source, t_flags *flag, t_len *len)
 	free(output);
 }
 
-static void	print_string_w_dot(char *output, char *s, t_flags *flag, t_len *len)
+void	print_string_w_dot(char *output, char *s, t_flags *flag, t_len *len)
 {
 	if (flag->width > ft_strlen(s) || (flag->width != 0 && flag->prcn == 0)
 		|| (flag->width > flag->prcn && ft_strlen(s) > flag->prcn))

@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:16:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/11 21:54:53 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/15 12:04:08 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	print_string(char *s, t_flags *flag, t_len *len);
 void	print_unsigned(unsigned int n, t_flags *flag, t_len *len);
 void	print_hex(unsigned long n, t_flags *flag, t_len *len);
 void	print_pointer(void *ptr, t_flags *flag, t_len *len);
+void	print_percent(char c, t_flags *flag, t_len *len);
 
 void	fill_strings(char *output, char *src, t_flags *flag);
 void	fill_chars(char *output, char *src, t_flags *flag);

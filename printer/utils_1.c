@@ -6,12 +6,17 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:44 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/13 01:59:34 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/15 14:12:07 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+// - fill chars from va_args(string)
+// - this append the chars either from the right, or left
+// - if append from left, considers '0' appended by prcn flag
+//   example: printf("=-10.8x=", 12345678); -> =0001E240  =
+//   from example above, the va_args(string) is not literally appended from left
 void	fill_chars(char *output, char *src, t_flags *flag)
 {
 	if (flag->minus == 0)
@@ -89,6 +94,8 @@ void	fill_width_zeros(char *output, t_flags *flag)
 	}
 }
 
+// - extension of pregenerate_flag, and a modified version of calloc, in which
+//   append spaces at every index up to null terminator
 char	*ft_spalloc(int count, int size)
 {
 	char	*ptr;
@@ -106,6 +113,9 @@ char	*ft_spalloc(int count, int size)
 	return (ptr);
 }
 
+// - pregeneration of flags, which considers 2 condition
+// - if width is bigger than strlen(va_argstr) and prcn, spalloc with size=width
+//   elif prcn is bigger than strlen(va_argstr) and width, spalloc w size=prcn
 char	*pregenerate_flag(t_flags *flag, int condition)
 {
 	char	*output;

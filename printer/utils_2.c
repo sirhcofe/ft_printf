@@ -6,12 +6,22 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:26 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/13 02:01:43 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/15 14:46:42 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+// - sometimes we have a string as follow: =0001234   =
+//   the zeros are appended by precision, and there are extra spaces behind
+//   then whenever we have flags like '+' or ' ', etc
+//   we need to put these flag in front of the string -> = 0001234  =
+// - to do this, we first go through the string to look for spaces
+//   this will determine the part we will substr for output
+// - if space = TRUE:
+//   strjoin the flags into the string first then substr one less byte from rear
+// - if space = FALSE
+//   strjoin the flags into the string as well, but substr everything
 char	*move_and_extract(char *string, char *temp)
 {
 	char	*output;
@@ -109,18 +119,3 @@ char	*fill_minus(char *output, t_flags *flag, int str_len)
 	output = continue_fill(output, temp, str_len, flag);
 	return (output);
 }
-
-// 	else if (output[0] == ' ' && output[1] != ' ')
-// 	{
-// 		output[0] = (flag->chars == 'x') * 'x' + (flag->chars == 'X') * 'X';
-// 		output = ft_strjoin(ft_strdup("0"), output);
-// 		free(temp);
-// 	}
-// 	else
-// 	{
-// 		i = 0;
-// 		while (output[i] == ' ')
-// 			i++;
-// 		ft_strlcpy((output + i - 2), temp, 3);
-// 		free(temp);
-// 	}

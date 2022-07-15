@@ -6,7 +6,7 @@
 /*   By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:15:51 by chenlee           #+#    #+#             */
-/*   Updated: 2022/07/13 11:43:10 by chenlee          ###   ########.fr       */
+/*   Updated: 2022/07/15 14:00:50 by chenlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	parse_number(const char *format, t_flags *flag, int *i)
 	free(temp);
 }
 
+// - one main problem with identifying these flags is that the program might get
+//   confused especially when dealing with zero, flag and precision flag
+// - which explains the extra if conditions to differentiate those flags
 void	identify_spec(const char *format, t_flags *flag)
 {
 	int		i;
@@ -58,6 +61,17 @@ void	identify_spec(const char *format, t_flags *flag)
 	flag->flag_str = ft_substr(format, 0, (flag->count + 1));
 }
 
+// - goes through format string:
+//      1. if the i-th index of format string is '%', this indicates a possible
+//         group of flags/specifier
+//      2. otherwise, just write the char of the i-th index
+//   the start of a group of flags and specifier
+// - if % symbol is found, check if specifier is present after the symbol until:
+//      1. the i-th index of format string is not in "cspdiuxX%-0# +123456789."
+//      2. one of the specifier in "cspdiuxX%" is found
+// - then calls identify_spec to recognize each and every flags
+// - if there is a specifier in the group, calls print_flag_specifier
+// - then reset flags struct
 void	parse_format(const char *format, va_list args, t_len *len)
 {
 	t_flags	*flag;
@@ -87,7 +101,6 @@ void	parse_format(const char *format, va_list args, t_len *len)
 	free(flag);
 }
 
-// ft_printf
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
