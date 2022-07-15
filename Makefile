@@ -6,7 +6,7 @@
 #    By: chenlee <chenlee@student.42kl.edu.my>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/28 15:28:00 by chenlee           #+#    #+#              #
-#    Updated: 2022/07/13 03:31:24 by chenlee          ###   ########.fr        #
+#    Updated: 2022/07/13 14:20:51 by chenlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,17 +26,17 @@ MNDT		=	printf_char.c			\
 				ft_print_specifier.c	\
 				ft_initiate_reset_flag.c
 
-LIBFT		= libft
-LIBFT_OBJS	= ./libft/objects/*.o
+LIBFT			= libft
+LIBFT_OBJS		= ./libft/objects/*.o
 
 OBJS			= $(addprefix $(OBJS_DIR), $(MAIN:.c=.o) $(notdir $(MNDT:.c=.o)))
 
-CC					= gcc
-CFLAGS				= -Wall -Wextra -Werror
-OBJS_DIR			= objects/
+CC				= gcc
+CFLAGS			= -Wall -Wextra -Werror
+OBJS_DIR		= objects/
 
-SRCE_DIR			=	printer	\
-						libft
+SRCE_DIR		=	printer	\
+					libft
 
 vpath %.c $(SRCE_DIR)
 
@@ -49,12 +49,12 @@ $(NAME):		$(OBJS)
 				@make -C $(LIBFT)
 				@ar rc $(NAME) $(OBJS) $(LIBFT_OBJS)
 
-test : all main.c
+test:			all main.c
 				gcc -L. main.c -lftprintf -o test && ./test
 
-all:	$(NAME)
+all:			$(NAME)
 
-bonus: 	$(NAME)
+bonus:			$(NAME)
 
 clean:
 				@rm -rf $(OBJS_DIR)
