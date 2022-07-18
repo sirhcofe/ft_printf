@@ -10,21 +10,21 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= libftprintf.a
+NAME			= libftprintf.a
 
-MAIN		= ft_printf.c
+MAIN			= ft_printf.c
 
-MNDT		=	printf_char.c			\
+MNDT			=	printf_char.c			\
 				printf_hex.c			\
 				printf_number.c			\
 				printf_percent.c		\
 				printf_pointer.c		\
 				printf_string.c			\
 				printf_unsigned.c		\
-				utils_1.c				\
-				utils_2.c				\
-				utils_3.c				\
-				ft_print_specifier.c	\
+				utils_1.c			\
+				utils_2.c			\
+				utils_3.c			\
+				ft_print_specifier.c		\
 				ft_initiate_reset_flag.c
 
 LIBFT			= libft
@@ -32,12 +32,12 @@ LIBFT_OBJS		= ./libft/objects/*.o
 
 OBJS			= $(addprefix $(OBJS_DIR), $(MAIN:.c=.o) $(notdir $(MNDT:.c=.o)))
 
-CC				= gcc
+CC			= gcc
 CFLAGS			= -Wall -Wextra -Werror
 OBJS_DIR		= objects/
 
 SRCE_DIR		=	printer	\
-					libft
+				libft
 
 vpath %.c $(SRCE_DIR)
 
