@@ -163,4 +163,9 @@ Pregeneration of the field width filled with empty spaces can be useful especial
 | Maximum field width (aka precision) | `printf("-%2.10d-\n", 123)` | Pregenerate n bytes of spaces based on max field width      |
 | strlen(argument)                    | `printf("-%d-\n", 123)`     | Pregeneration not needed, immediately call strdup(argument) |
 
-### 4.2 Fill width with zeros
+### 4.2 Fill width with zeros (number, unsigned int, hex, pointer)
+After pregenerating the output string with necessary field width, the program carries on to scan for the need to fill the empty spaces with 0. For example, considering the condition: `printf("-%10.5d-\n", 123)` from process 4.1 will write a 10 byte spaces to the output string due to the minimum field width of 10 <pre>`-          -`</pre> Then through `fill_width_zero` function, it will write 5 byte of '0' from the right of the output string, thus making the output string as <pre>`-     00000-`</pre>
+
+However, there are two edge cases that needs to be considered, in which are:
+1. If '-' flag exists, the n byte(s) of '0' must be writen from the left of the output string, for example: `printf("=%-10.5d=\n", 123)` give <pre>`=00000     =`</pre>
+
