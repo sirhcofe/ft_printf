@@ -1,6 +1,8 @@
 # ft_printf
 A not so complete replica of the printf function in C, from one of the projects during my time studying in 42KL
 
+<br/><br/>
+
 ## 1. Introduction
 
 <p align="center">
@@ -32,6 +34,7 @@ help and support throughout the process.
 ### Disclaimer
 I, for one, am still on a journey on a vast sea of computer programming, and I can't gurantee the information you read below is completely true. Read at your own risk :)
 
+<br/><br/>
 
 ## 2. Literature
 
@@ -62,7 +65,7 @@ These conversions can be built up to 6 parts shown below, and must be used in th
 | :---:    | :---:    | :---:               | :---:    | :---:                         | :---:         |
 | Required | Optional |       Optional      | Optional |            Optional           |    Required   |
 
----
+<br/>
 
 ### Flags
 
@@ -77,7 +80,7 @@ The flags must follow the % sign as it marks the beginning of the syntax, and wh
 |  (space)  |       |       |       |   ✓   |  ✓    |      |       |       |       | positive values begin with a blank |
 | +         |       |       |       |   ✓   |  ✓    |       |       |       |       | positive values and 0 begin with + |
 
----
+<br/>
 
 ### Minimum field width
 
@@ -98,13 +101,13 @@ int     main()
 **********************************/
 ```
 
----
+<br/>
 
 ### Period
 
 Period must be used suffixed with precision
 
----
+<br/>
 
 ### Precision
 
@@ -135,10 +138,12 @@ printf("-%1.8s-", "Hello");    //outcome: -Hello-
 
 From the example above, should there be a scenario whereby the minimum field width specified is not sufficient to hold the string, or it is smaller than the precision value specified, the minimum field width will be ignored and instead follows the precision (maximum field width)
 
+<br/><br/>
 
 ## 3. Commands
 You can compile the program with your own main.c with your own test cases by running `make test` in the repository.
 
+<br/><br/>
 
 ## 4. Process
 
@@ -164,8 +169,24 @@ Pregeneration of the field width filled with empty spaces can be useful especial
 | strlen(argument)                    | `printf("-%d-\n", 123)`     | Pregeneration not needed, immediately call strdup(argument) |
 
 ### 4.2 Fill width with zeros (number, unsigned int, hex, pointer)
-After pregenerating the output string with necessary field width, the program carries on to scan for the need to fill the empty spaces with 0. For example, considering the condition: `printf("-%10.5d-\n", 123)` from process 4.1 will write a 10 byte spaces to the output string due to the minimum field width of 10 <pre>`-          -`</pre> Then through `fill_width_zero` function, it will write 5 byte of '0' from the right of the output string, thus making the output string as <pre>`-     00000-`</pre>
+After pregenerating the output string with necessary field width, the program carries on to scan for the need to fill the empty spaces with 0. The flags of interest in this case is `'0'` and `max_field_width/precision` flag.
 
-However, there are two edge cases that needs to be considered, in which are:
-1. If '-' flag exists, the n byte(s) of '0' must be writen from the left of the output string, for example: `printf("=%-10.5d=\n", 123)` give <pre>`=00000     =`</pre>
+![My First Board](https://user-images.githubusercontent.com/99158692/193578918-aab1d690-7ea3-47b5-91c8-266e9f727b57.jpg)
+
+The output for the above examples are as follow:
+
+<pre>
+-0000000000-        //        -     00000-        //        -0000000000-
+</pre>
+
+It is important to note that for the second example above, should there be an extra `'-'` flag, for example `%-10.5d`, the 5 bytes of `'0'` will be appended from the left instead of the usual apprended from the right
+<pre>
+Output: -00000     -
+</pre>
+
+### 4.3 Fill chars (all conversion)
+After the pregeneration and width filling of the output string (whenever necessary), the program fills in the variables.
+
+#### - For null-terminated strings (%s)
+
 
