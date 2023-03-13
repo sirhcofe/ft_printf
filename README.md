@@ -187,6 +187,23 @@ Output: -00000     -
 ### 4.3 Fill chars (all conversion)
 After the pregeneration and width filling of the output string (whenever necessary), the program fills in the variables.
 
-#### - For null-terminated strings (%s)
+#### - For strings (%s)
 
+Consider a scenario as follow:
+<pre>
+int    main(void)
+{
+    char    *str = NULL;
+    ft_printf("Print this for me: %s", str);
+}
+</pre>
+Since the string `str` parsed is not initialized, the program should prints `(null)`, making the output as follow:
+`Print this for me: (null)`
 
+<br/><br/>
+
+## 5. Conclusion
+
+The recreation of the printf function in C, albeit an incomplete replica, is a noteworthy accomplishment that highlights the author's mastery of C programming language and its features. This implementation of the printf function involved handling various format specifiers, including integers, hex, pointers, and characters, and incorporating them into a single output string. The function also accommodates the use of optional flags and precision modifiers, enabling it to produce a wide range of output formats.
+
+Valuable experience in managing character strings, format specifiers, and variadic arguments has been gained through this project. The understanding of the C language's memory management by appropriately allocating and deallocating memory throughout the function has been demonstrated, which ensures efficient use of system resources and eliminates potential memory leaks.
